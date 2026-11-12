@@ -1,0 +1,40 @@
+
+
+
+import requests
+import time
+
+# Replace with your actual API key from twelvedata.com
+API_KEY = "YOUR_API_KEY_HERE"
+
+def get_live_gold_price():
+    # The URL for real-time XAUUSD data
+    url = f"https://api.twelvedata.com/price?symbol=XAU/USD&apikey={API_KEY}"
+    
+    try:
+        response = requests.get(url)
+        data = response.json()
+        
+        # Check if the API returned a valid price
+        if 'price' in data:
+            return float(data['price'])
+        else:
+            return None
+    except Exception as e:
+        print(f"Error: {e}")
+        return None
+
+print("Starting Adrian AI Live Market Feed...")
+print("---------------------------------------")
+
+while True:
+    live_price = get_live_gold_price()
+    
+    if live_price:
+        print(f"Live XAUUSD Price: ${live_price}")
+        # Here is where your AI logic would go to say "SELL" or "BUY"
+    else:
+        print("Waiting for market data...")
+        
+    # Wait 10 seconds before asking for the next update
+    time.sleep(10)
